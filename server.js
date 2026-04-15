@@ -1,4 +1,5 @@
 
+
 const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
@@ -17,7 +18,6 @@ app.get('/api/*', async (req, res) => {
   const path = req.path.replace('/api', '');
   const query = new URLSearchParams(req.query).toString();
   const url = `https://api.theracingapi.com/v1${path}${query ? '?' + query : ''}`;
-
   try {
     const response = await fetch(url, {
       headers: {
@@ -33,4 +33,4 @@ app.get('/api/*', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`Runnin
+app.listen(PORT, () => console.log(`Running on ${PORT}`));
