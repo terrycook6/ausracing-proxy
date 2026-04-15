@@ -29,6 +29,7 @@ app.get('/api/*', async (req, res) => {
     const text = await response.text();
     res.status(response.status).set('Content-Type', 'application/json').send(text);
   } catch (err) {
+    
     res.status(500).json({ error: err.message });
   }
 });
