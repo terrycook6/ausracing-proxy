@@ -38,7 +38,7 @@ app.get('/api/*', async (req, res) => {
     });
     console.log('API status: ' + response.status);
     const text = await response.text();
-    console.log('Response preview: ' + text.slice(0, 200));
+    console.log('Response preview: ' + text.slice(0, 2000));
     res.status(response.status).set('Content-Type', 'application/json').send(text);
   } catch (err) {
     console.error('Error: ' + err.message);
