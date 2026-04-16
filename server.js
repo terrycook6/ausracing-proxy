@@ -52,38 +52,12 @@ app.post('/betfair/login', async (req, res) => {
       },
       body: 'username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password)
     });
-    const text = await response.text();
     console.log('Betfair login status: ' + response.status);
-    res.status(response.status).set('Content-Type', 'application/json').send(text);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Betfair API proxy
-app.post('/betfair/api', async (req, res) => {
-  const sessionToken = req.headers['x-betfair-session'];
-  const apiKey = req.headers['x-betfair-key'];
-  const endpoint = req.headers['x-betfair-endpoint'];
-  if (!sessionToken || !apiKey || !endpoint) return res.status(400).json({ error: 'Missing Betfair headers' });
-  console.log('Betfair API: ' + endpoint);
-  try {
-    const response = await fetch('https://api.betfair.com/exchange/betting/json-rpc/v1', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Application': apiKey,
-        'X-Authentication': sessionToken,
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(req.body)
-    });
     const text = await response.text();
-    console.log('Betfair API status: ' + response.status);
+    console.log('Betfair login body: ' + text.slice(0, 300));
     res.status(response.status).set('Content-Type', 'application/json').send(text);
   } catch (err) {
+    console.error('Betfair login error: ' + err.message);
     res.status(500).json({ error: err.message });
   }
 });
-
-app.listen(PORT, () => console.log('Running on ' + PORT));
