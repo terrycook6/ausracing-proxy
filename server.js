@@ -37,8 +37,10 @@ app.get('/api/*', async (req, res) => {
   }
 });
 
-app.post('/betfair/login', async (req, res) => {
-  const { username, password, apiKey } = req.body;
+app.get('/betfair/login', async (req, res) => {
+  const username = req.query.user;
+  const password = req.query.pass;
+  const apiKey = req.query.key;
   if (!username || !password || !apiKey) return res.status(400).json({ error: 'Missing credentials' });
   console.log('Betfair login for: ' + username);
   try {
