@@ -42,14 +42,15 @@ app.post('/betfair/login', async (req, res) => {
   if (!username || !password || !apiKey) return res.status(400).json({ error: 'Missing credentials' });
   console.log('Betfair login for: ' + username);
   try {
-    const response = await fetch('https://identitysso.betfair.com/api/login', {
+   const response = await fetch('https://identitysso.betfair.com/api/login?username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password) + '&login=true', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'X-Application': apiKey,
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Referer': 'https://www.betfair.com'
       },
-      body: 'username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password)
+      body: ''
     });
     console.log('Betfair login status: ' + response.status);
     const text = await response.text();
